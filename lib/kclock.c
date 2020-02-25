@@ -2,7 +2,8 @@
 
 /* The Run Time Clock and other NVRAM access functions that go with it. */
 /* The run time clock is hard-wired to IRQ8. */
-
+
+#include <kclock.h>
 #include <kclock.h>
 
 
@@ -16,7 +17,7 @@ kclock_init(void)
 	//outb(IO_TIMER1, TIMER_DIV(100) % 256);
 	//outb(IO_TIMER1, TIMER_DIV(100) / 256);
 	//printf("	Setup timer interrupts via 8259A\n");
-	set_timer();
+	// set_timer();
 	//irq_setmask_8259A (irq_mask_8259A & ~(1<<0));
 	//printf("	unmasked timer interrupt\n");
 	

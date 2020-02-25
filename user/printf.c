@@ -1,9 +1,5 @@
-
-
 #include "lib.h"
-
-
-
+//#define va_list char*
 
 void halt(void);
 
@@ -15,8 +11,8 @@ static void user_myoutput(void *arg, char *s, int l)
     if ((l==1) && (s[0] == '\0')) return;
     
     for (i=0; i< l; i++) {
-	syscall_putchar(s[i]);
-	if (s[i] == '\n') syscall_putchar('\n');
+	//syscall_putchar(s[i]);
+	//if (s[i] == '\n') syscall_putchar('\n');
     }
 }
 

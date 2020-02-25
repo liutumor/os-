@@ -1,11 +1,11 @@
-INCLUDES := -I../include
+INCLUDES := -I../inc 
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $<
 
 .PHONY: clean
 
-all: init.o main.o code.o
+all: init.o main.o code.o code_idle.o
 
 clean:
 	rm -rf *~ *.o

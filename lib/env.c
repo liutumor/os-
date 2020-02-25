@@ -1,6 +1,6 @@
 /* Notes written by Qian Liu <qianlxc@outlook.com>
   If you find any bug, please contact with me.*/
-
+#include <stdint.h>
 #include <mmu.h>
 #include <error.h>
 #include <env.h>
@@ -8,6 +8,7 @@
 #include <sched.h>
 #include <pmap.h>
 #include <printf.h>
+#include <user/shell.h>
 
 struct Env *envs = NULL;		// All environments
 struct Env *curenv = NULL;	        // the current env
@@ -242,8 +243,8 @@ env_alloc(struct Env **new, u_int parent_id)
  * Post-Condition:
  *   return 0 on success, otherwise < 0.
  */
-static int load_icode_mapper(u_long va, u_int32_t sgsize,
-							 u_char *bin, u_int32_t bin_size, void *user_data)
+static int load_icode_mapper(u_long va, uint32_t sgsize,
+							 u_char *bin, uint32_t bin_size, void *user_data)
 {
 	struct Env *env = (struct Env *)user_data;
 	struct Page *p = NULL;
@@ -368,7 +369,7 @@ load_icode(struct Env *e, u_char *binary, u_int size)
 void
 env_create_priority(u_char *binary, int size, int priority)
 {
-        struct Env *e;
+    struct Env *e;
 	int r;
 	extern void debug();
     /*Step 1: Use env_alloc to alloc a new env. */
@@ -464,7 +465,7 @@ env_destroy(struct Env *e)
 	}
 }
 
-extern void env_pop_tf(struct Trapframe *tf, int id);
+extern void env_pop_tf(struct Trapframe *tf, int id, uint32_t va);
 extern void lcontext(u_int contxt);
 
 /* Overview:
@@ -500,7 +501,9 @@ env_run(struct Env *e)
      * the   environment.
      */
     /* Hint: You should use GET_ENV_ASID there.Think why? */
-	env_pop_tf(&(curenv->env_tf),GET_ENV_ASID(curenv->env_id));
+	// env_pop_tf(&(curenv->env_tf),GET_ENV_ASID(curenv->env_id),curenv->va);
+	while(1)
+		shell(NULL);
 
 }
 void env_check()
@@ -569,4 +572,12 @@ void env_check()
         assert(pe2->env_tf.cp0_status == 0x10001004);
         printf("pe2`s sp register %x\n",pe2->env_tf.regs[29]);
         printf("env_check() succeeded!\n");
+}
+
+void
+env_va_translate(struct Env *e, int size)
+{
+	// if(size>=500)
+	// 	e->va=;
+	return;
 }

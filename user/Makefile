@@ -1,10 +1,16 @@
-INCLUDES = -I../include/
+INCLUDES = -I../inc/ -I../drivers/ -I../fs/
 
 #CROSS_COMPILE := /usr/eldk/usr/bin/mips_4KC-
 #CC           := $(CROSS_COMPILE)gcc
 #CFLAGS       := -O -G 0 -mno-abicalls -fno-builtin -Wa,-xgot -Wall -fPIC
 #LD           := $(CROSS_COMPILE)ld
 # For embedding one program in another
+OBJDIRS := ../boot ../lib ../drivers ../init ../mm ../tool ../fs
+ASOURCES = $(foreach dir, $(OBJDIRS), $(wildcard $(dir)/*.S))
+CSOURCES = $(foreach dir, $(OBJDIRS), $(wildcard $(dir)/*.c)) idle.c
+COBJECTS = $(CSOURCES:.c=.o) 
+AOBJECTS = $(ASOURCES:.S=.o) 
+
 
 USERLIB := printf.o \
 		print.o \
@@ -22,27 +28,38 @@ USERLIB := printf.o \
 		wait.o \
 		spawn.o \
 		console.o \
-		fprintf.o
+		fprintf.o \
+		entry.o \
+		syscall_wrap.o \
+		idle.o		\
+		shell.o 
 
 CFLAGS += -nostdlib -static
 
+# all: idle.elf
+all: ${USERLIB}
+# all: echo.x echo.b  num.x num.b testptelibrary.b testptelibrary.x fktest.x fktest.b pingpong.x pingpong.b idle.x testarg.b testpipe.x testpiperace.x icode.x init.b sh.b cat.b ls.b fstest.x fstest.b $(USERLIB) entry.o syscall_wrap.o
 
-all: echo.x echo.b  num.x num.b testptelibrary.b testptelibrary.x fktest.x fktest.b pingpong.x pingpong.b idle.x testarg.b testpipe.x testpiperace.x icode.x init.b sh.b cat.b ls.b fstest.x fstest.b $(USERLIB) entry.o syscall_wrap.o
+# %.x: %.b.c 
+# 	echo cc1 $< 
+# 	$(CC) $(CFLAGS) -c -o $@ $<
 
-%.x: %.b.c 
-	echo cc1 $< 
-	$(CC) $(CFLAGS) -c -o $@ $<
-
-%.b.c: %.b
-	echo create $@
-	echo bintoc $* $< > $@~
-	chmod +x ./bintoc
-	./bintoc $* $< > $@~ && mv -f $@~ $@
+# %.b.c: %.b
+# 	echo create $@
+# 	echo bintoc $* $< > $@~
+# 	chmod +x ./bintoc
+# 	./bintoc $* $< > $@~ && mv -f $@~ $@
 #   grep \. $@
-	
-%.b: entry.o syscall_wrap.o %.o $(USERLIB)
+
+
+idle.elf: entry.o syscall_wrap.o  $(USERLIB) $(COBJECTS) $(AOBJECTS)
 	echo ld $@
-	$(LD) -o $@ $(LDFLAGS) -G 0 -static -n -nostdlib -T ./user.lds $^
+	$(LD) -o $@ -EL -static -N -T user.lds -G0 $^
+	$(OC) --remove-section .MIPS.abiflags --remove-section .reginfo idle.elf
+	$(SZ) idle.elf
+	$(OD) -D -l -t idle.elf > idle.dis
+	$(OD) -D idle.elf > idle.txt
+	$(OC) idle.elf -O srec idle.rec
 
 %.o: %.c
 	echo user1 cc $<

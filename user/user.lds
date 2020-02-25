@@ -26,7 +26,7 @@ SECTIONS
 
   _edata = .;			/* End of data section */
 
-
+  _fbss = .;
 
   __bss_start = .;		/* BSS */
   .bss : {
@@ -37,5 +37,5 @@ SECTIONS
 	*(.debug_*)
 	}
   end = . ;
-
+  _end = . ;
 }

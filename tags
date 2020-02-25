@@ -780,7 +780,7 @@ link_script	Makefile	/^link_script   := $(tools_dir)\/scse0_3.lds$/;"	m
 lo	include/trap.h	/^	unsigned long lo;$/;"	m	struct:Trapframe
 load_elf	lib/kernel_elfloader.c	/^int load_elf(u_char *binary, int size, u_long *entry_point, void *user_data,$/;"	f
 load_icode	lib/env.c	/^load_icode(struct Env *e, u_char *binary, u_int size)$/;"	f	file:
-load_icode_mapper	lib/env.c	/^static int load_icode_mapper(u_long va, u_int32_t sgsize,$/;"	f	file:
+load_icode_mapper	lib/env.c	/^static int load_icode_mapper(u_long va, uint32_t sgsize,$/;"	f	file:
 loop	boot/start.S	/^loop:$/;"	l
 lp_Print	lib/print.c	/^lp_Print(void (*output)(void *, char *, int), $/;"	f
 lw	lib/env_asm.S	/^lw	$1,TF_REG1(k0)$/;"	l
@@ -963,7 +963,7 @@ sh_name	readelf/kerelf.h	/^        Elf32_Word sh_name;                 \/* Secti
 sh_offset	readelf/kerelf.h	/^        Elf32_Off  sh_offset;               \/* Section offset *\/$/;"	m	struct:__anon5
 sh_size	readelf/kerelf.h	/^        Elf32_Word sh_size;                 \/* Section size *\/$/;"	m	struct:__anon5
 sh_type	readelf/kerelf.h	/^        Elf32_Word sh_type;                 \/* Section type *\/$/;"	m	struct:__anon5
-size_t	include/types.h	/^typedef u_int32_t        size_t;$/;"	t
+size_t	include/types.h	/^typedef uint32_t        size_t;$/;"	t
 skip_slash	fs/fs.c	/^skip_slash(char *p)$/;"	f
 sp	include/asm-mips3k/regdef.h	45;"	d
 sp	include/asm/regdef.h	45;"	d
@@ -1077,8 +1077,8 @@ u_int	include/types.h	/^typedef	unsigned int	u_int;$/;"	t
 u_int	readelf/types.h	/^typedef	unsigned int	u_int;$/;"	t
 u_int16_t	include/types.h	/^typedef unsigned __attribute__((__mode__(HI))) u_int16_t;$/;"	t
 u_int16_t	readelf/types.h	/^typedef unsigned short          u_int16_t;$/;"	t
-u_int32_t	include/types.h	/^typedef unsigned __attribute__((__mode__(SI))) u_int32_t;$/;"	t
-u_int32_t	readelf/types.h	/^typedef unsigned int            u_int32_t;$/;"	t
+uint32_t	include/types.h	/^typedef unsigned __attribute__((__mode__(SI))) uint32_t;$/;"	t
+uint32_t	readelf/types.h	/^typedef unsigned int            uint32_t;$/;"	t
 u_int64_t	include/types.h	/^typedef unsigned __attribute__((__mode__(DI))) u_int64_t;$/;"	t
 u_int64_t	readelf/types.h	/^typedef unsigned long long      u_int64_t;$/;"	t
 u_int8_t	include/types.h	/^typedef unsigned __attribute__((__mode__(QI))) u_int8_t;$/;"	t
@@ -1091,8 +1091,8 @@ u_short	include/types.h	/^typedef	unsigned short	u_short;$/;"	t
 u_short	readelf/types.h	/^typedef	unsigned short	u_short;$/;"	t
 uint16_t	include/kerelf.h	/^typedef u_int16_t		uint16_t;$/;"	t
 uint16_t	readelf/kerelf.h	/^typedef u_int16_t               uint16_t;$/;"	t
-uint32_t	include/kerelf.h	/^typedef u_int32_t		uint32_t;$/;"	t
-uint32_t	readelf/kerelf.h	/^typedef u_int32_t               uint32_t;$/;"	t
+uint32_t	include/kerelf.h	/^typedef uint32_t		uint32_t;$/;"	t
+uint32_t	readelf/kerelf.h	/^typedef uint32_t               uint32_t;$/;"	t
 uint64_t	include/kerelf.h	/^typedef u_int64_t		uint64_t;$/;"	t
 uint64_t	readelf/kerelf.h	/^typedef u_int64_t               uint64_t;$/;"	t
 umain	fs/serv.c	/^umain(void)$/;"	f

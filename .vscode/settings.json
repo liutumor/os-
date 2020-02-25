@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "string.h": "c",
+        "fs.h": "c",
+        "tlbop.h": "c",
+        "mmu.h": "c"
+    }
+}

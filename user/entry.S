@@ -15,8 +15,8 @@ fdtab:
 	.space BY2PG
 
 
-	.globl envs
-envs:
+	.globl envss # has been modified
+envss:
 	.word UENVS
 
 	.globl pages
@@ -39,8 +39,8 @@ vpd:
 	.extern libmain
 
 	.text
-	.globl _start
-_start:
+	.globl _startt # name has been modified
+_startt:
 	//1: j 1b
 	lw	a0, 0(sp)
 	lw	a1, 4(sp)

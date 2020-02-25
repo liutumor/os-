@@ -9,31 +9,34 @@ boot_dir	  := boot
 user_dir	  := user
 init_dir	  := init
 lib_dir		  := lib
-fs_dir		  := fs
+#fs_dir		  := fs
 mm_dir		  := mm
 tools_dir	  := tools
-vmlinux_elf	  := gxemul/vmlinux
-user_disk     := gxemul/fs.img
-
-link_script   := $(tools_dir)/scse0_3.lds
+#link_script   := $(tools_dir)/scse0_3.lds
+link_script   := scse0_3.lds
 
 modules		  := boot drivers init lib mm user fs
-objects		  := $(boot_dir)/start.o			  \
-				 $(init_dir)/main.o			  \
-				 $(init_dir)/init.o			  \
-				 $(init_dir)/code.o			  \
-			   	 $(drivers_dir)/gxconsole/console.o \
-				 $(lib_dir)/*.o				  \
-				 $(user_dir)/*.x \
-				 $(fs_dir)/*.x \
-				 $(mm_dir)/*.o
+objects		  := $(boot_dir)/*.o			  \
+			 	 $(lib_dir)/*.o				  \
+				 $(drivers_dir)/*.o	 		  \
+				 $(init_dir)/*.o			  \
+				 $(mm_dir)/*.o				  \
+				 $(user_dir)/*.o			  \
+				 tool/*.o   			      \
+				 fs/*.o
+
 
 .PHONY: all $(modules) clean run
 
 all: $(modules) vmlinux
 
 vmlinux: $(modules)
-	$(LD) -o $(vmlinux_elf) -N -T $(link_script) $(objects)
+	$(LD) -EL -nostartfiles -N -T scse0_3.lds -G0 -o vmlinux.elf $(objects) 
+	$(OC) --remove-section .MIPS.abiflags --remove-section .reginfo vmlinux.elf
+	$(SZ) vmlinux.elf
+	$(OD) -D -l -t vmlinux.elf > vmlinux.dis
+	$(OD) -D vmlinux.elf > vmlinux.txt
+	$(OC) vmlinux.elf -O srec vmlinux.rec
 
 $(modules): 
 	$(MAKE) --directory=$@

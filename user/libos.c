@@ -3,7 +3,7 @@
 #include <env.h>
 
 void
-exit(void)
+exit()
 {
 	//close_all();
 	syscall_env_destroy(0);

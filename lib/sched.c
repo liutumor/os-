@@ -45,7 +45,6 @@ void sched_yield(void)
 	//printf("sched_yield:to%x\n",e->env_id);
 
 }
-
 /*
 void sched_yield(void)
 {

@@ -13,6 +13,7 @@ SECTIONS
         *(.text)
     }
 
+  _fbss = .;
   .bss  : {
    *(.bss)
    }
@@ -28,4 +29,5 @@ SECTIONS
   . = 0x80400000;
 
    end = . ;
+   _end = . ;
 }

@@ -1,4 +1,3 @@
-#include "../drivers/gxconsole/dev_cons.h"
 #include <mmu.h>
 #include <env.h>
 #include <printf.h>
@@ -16,7 +15,7 @@ extern struct Env *curenv;
  */
 void sys_putchar(int sysno, int c, int a2, int a3, int a4, int a5)
 {
-	printcharc((char) c);
+	cputchar((char) c);
 	return ;
 }
 
@@ -32,17 +31,17 @@ void sys_putchar(int sysno, int c, int a2, int a3, int a4, int a5)
  * 	the content of `destaddr` area(from `destaddr` to `destaddr`+`len`) will
  * be same as that of `srcaddr` area.
  */
-void *memcpy(void *destaddr, void const *srcaddr, u_int len)
-{
-	char *dest = destaddr;
-	char const *src = srcaddr;
+// void *memcpy(void *destaddr, void const *srcaddr, u_int len)
+// {
+// 	char *dest = destaddr;
+// 	char const *src = srcaddr;
 
-	while (len-- > 0) {
-		*dest++ = *src++;
-	}
+// 	while (len-- > 0) {
+// 		*dest++ = *src++;
+// 	}
 
-	return destaddr;
-}
+// 	return destaddr;
+// }
 
 /* Overview:
  *	This function provides the environment id of current process.
@@ -162,19 +161,19 @@ int sys_mem_alloc(int sysno, u_int envid, u_int va, u_int perm)
 		return -E_INVAL;
 	}
 	// try to alloc a page
-	ret=page_alloc(&ppage);
+	ret = page_alloc(&ppage);
 	if(ret<0){
 		printf("sys_mem_alloc:failed to alloc a page\n");
 		return -E_NO_MEM;
 	}
 	//try to check and get the env_id;
-	ret=envid2env(envid,&env,1);
+	ret = envid2env(envid,&env,1);
 	if(ret<0){
 		printf("sys_mem_alloc:failed to get the target env\n");
 		return -E_BAD_ENV;
 	}
 	//now insert
-	ret=page_insert(env->env_pgdir,ppage,va,perm);
+	ret = page_insert(env->env_pgdir,ppage,va,perm);
 	if(ret<0){
 		printf("sys_mem_alloc:page_insert failed");
 		return -E_NO_MEM;

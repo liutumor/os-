@@ -1,3 +1,4 @@
+#include <mips/cpu.h>
 #include <asm/asm.h>
 #include <pmap.h>
 #include <env.h>
@@ -5,87 +6,92 @@
 #include <kclock.h>
 #include <trap.h>
 
-extern char aoutcode[];
-extern char boutcode[];
+#define DDR_BASE_ADDR 0x80000000;
 
-void mips_init()
+int mCONTEXT;
+
+void interface_init()
 {
-	printf("init.c:\tmips_init() is called\n");
+    printf("\n");
+    printf("\n");
+    printf("\n");
+printf("       db                                                                      \n");
+printf("      d88b                                                                     \n");
+printf("     d8\'`8b                                                                    \n");
+printf("    d8\'  `8b     88       88  8b,dPPYba,   ,adPPYba,   8b,dPPYba,  ,adPPYYba,  \n");
+printf("   d8YaaaaY8b    88       88  88P\'   \"Y8  a8\"     \"8a  88P\'   \"Y8  \"\"     `Y8  \n");
+printf("  d8\"\"\"\"\"\"\"\"8b   88       88  88          8b       d8  88          ,adPPPPP88  \n");
+printf(" d8\'        `8b  \"8a,   ,a88  88          \"8a,   ,a8\"  88          88,    ,88  \n");
+printf("d8\'          `8b  `\"YbbdP\'Y8  88           `\"YbbdP\"\'   88          `\"8bbdP\"Y8  \n");
+printf("\n");
+    boot_music();
+}
+void time_setup()
+{
+    char * buf;
+    char * h, *m, *s;
+    printf("Please setup the system time(xx:xx:xx) \n");
+    h = readline("hour> ");
+    m = readline("minute> ");
+    s = readline("sec> ");
+    
+    set_seven_seg_value(*s);
+}
+void device_init()
+{
+ 	set_leds(0x5555); 
+  	mips32_bicsr (SR_BEV);
+    mips32_bissr (SR_IE | SR_HINT0 | SR_HINT1 | SR_HINT2 | SR_HINT3 | SR_HINT4);
+    init_seven_seg();
+    enable_all_seven_seg();
+    //time_setup();
+}
+void sys_init()
+{
+    printf("\n");
+	mips_tlbinvalall ();
+    printf("*******Start to detect available memory space:\n");
 	mips_detect_memory();
-	
+    printf("\n");
+    printf("*******Start to initialize the virtual memory:\n");
 	mips_vm_init();
+    printf("\n");
+    printf("*******Start to initialize page memory management:\n");
 	page_init();
-	//page_check();
-	
+    page_check();
+    printf("\n");
+    printf("*******Start to initialize process management:\n");
 	env_init();
-	
-	//ENV_CREATE(user_fktest);
-//	ENV_CREATE(user_pt1);
-	//ENV_CREATE(user_idle);
-//	ENV_CREATE(fs_serv);
-	//ENV_CREATE(user_fktest);
-	//ENV_CREATE(user_pingpong);
-	//ENV_CREATE(user_testfdsharing);	
-//	ENV_CREATE(user_testspawn);
-
-
-//	ENV_CREATE(user_testpipe);
-//	ENV_CREATE(user_testpiperace);
-	ENV_CREATE(user_icode);
-	ENV_CREATE(fs_serv);
-
+    printf("\n");
+//	env_check();
+    printf("*******Start to load user program:\n");
+    ENV_CREATE(user_idle);
+    printf("\n");
+    printf("*******Start to initialize traps:\n");
 	trap_init();
-	kclock_init();
-	//env_run(&envs[0]);
-
-	//env_run(&envs[1]);
-	
-	panic("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
-	while(1);
-	panic("init.c:\tend of mips_init() reached!");
+    printf("\n");
+    printf("*******Start to initialize kclock:\n");
+    kclock_init();
+    printf("kclock init has been completed\n"); 
+    printf("\n");
+    printf("*******The whole system is ready!\n");
+   //  printf("kclock init has been completed\n");
+    interface_init(); //initialize the interface
+    asm ("ei");
+    
+    sched_yield();
+  //  panic("!!!!!!!!!!!!!!!!!!");
+	//while (1) monitor(NULL);
 }
 
-void bcopy(const void *src, void *dst, size_t len)
+
+void SD_TEST()
 {
-	void *max;
-
-	max = dst + len;
-	// copy machine words while possible
-	while (dst + 3 < max)
-	{
-		*(int *)dst = *(int *)src;
-		dst+=4;
-		src+=4;
-	}
-	// finish remaining 0-3 bytes
-	while (dst < max)
-	{
-		*(char *)dst = *(char *)src;
-		dst+=1;
-		src+=1;
-	}
+    //spi_init();
+    // for(uint8_t i = 0;i < 15; i++){
+    //     set_leds(xchg_spi(i));
+    //     for(uint32_t j = 0; j < 1000*00000; j++);
+    // }
+    disk_initialize(0);
 }
 
-void bzero(void *b, size_t len)
-{
-	void *max;
-
-	max = b + len;
-
-	//printf("init.c:\tzero from %x to %x\n",(int)b,(int)max);
-	
-	// zero machine words while possible
-
-	while (b + 3 < max)
-	{
-		*(int *)b = 0;
-		b+=4;
-	}
-	
-	// finish remaining 0-3 bytes
-	while (b < max)
-	{
-		*(char *)b++ = 0;
-	}		
-	
-}

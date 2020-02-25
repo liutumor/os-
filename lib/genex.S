@@ -60,14 +60,23 @@ and	t0, t2
 
 andi	t1, t0, STATUSF_IP4
 bnez	t1, timer_irq
+andi	t1, t0, STATUSF_IP2
+bnez	t1, button_deal
 nop
 END(handle_int)
 
 	.extern delay
 
+button_deal:
+	j	read_button
+	nop
+	j	ret_from_exception
+	nop
+
+
 timer_irq:
 
-1:	j	sched_yield
+1:	jal	sched_yield
 	nop
 	/*li t1, 0xff
 	lw    t0, delay
@@ -137,7 +146,7 @@ nop
 			nop
 				
 			sw	 	ra,tlbra
-			jal		pageout
+			jal 	my_tlb_refill
 			nop
 //3: j 3b
 nop

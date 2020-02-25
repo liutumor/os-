@@ -1,5 +1,6 @@
 #include "lib.h"
 #include <args.h>
+#include "fs.h"
 
 int debug = 0;
 
@@ -232,9 +233,12 @@ usage(void)
 	exit();
 }
 
+
 void
 umain(int argc, char **argv)
 {
+	printf("umain\n");
+	my_fs_init();
 	int r, interactive, echocmds;
 	interactive = '?';
 	echocmds = 0;

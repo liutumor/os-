@@ -1,5 +1,5 @@
 #include "lib.h"
-#include <fs.h>
+#include <../inc/fs.h>
 
 #define debug 0
 

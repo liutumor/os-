@@ -16,16 +16,16 @@ struct Dev devcons =
 .dev_stat=	cons_stat,
 };
 
-int
-iscons(int fdnum)
-{
-	int r;
-	struct Fd *fd;
+// int
+// iscons(int fdnum)
+// {
+// 	int r;
+// 	struct Fd *fd;
 
-	if ((r = fd_lookup(fdnum, &fd)) < 0)
-		return r;
-	return fd->fd_dev_id == devcons.dev_id;
-}
+// 	if ((r = fd_lookup(fdnum, &fd)) < 0)
+// 		return r;
+// 	return fd->fd_dev_id == devcons.dev_id;
+// }
 
 int
 opencons(void)

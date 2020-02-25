@@ -1,7 +1,7 @@
 #ifndef LIB_H
-#define LIB_H
+#define LIB_Hs
 #include "fd.h"
-#include "pmap.h"
+#include <pmap.h>
 #include <mmu.h>
 #include <trap.h>
 #include <env.h>
@@ -70,11 +70,12 @@ int syscall_read_dev(u_int va,u_int dev,u_int offset);
 
 
 // string.c
-int strlen(const char *s);
-char *strcpy(char *dst, const char *src);
-const char *strchr(const char *s, char c); 
-void *memcpy(void *destaddr, void const *srcaddr, u_int len);
-int strcmp(const char *p, const char *q);
+// int strlen(const char *s);
+// char *strcpy(char *dst, const char *src);
+// const char *strchr(const char *s, char c); 
+// void *memcpy(void *destaddr, void const *srcaddr, u_int len);
+// int strcmp(const char *p, const char *q);
+
 // ipc.c
 void	ipc_send(u_int whom, u_int val, u_int srcva, u_int perm);
 u_int	ipc_recv(u_int *whom, u_int dstva, u_int *perm);
@@ -84,7 +85,7 @@ void wait(u_int envid);
 
 // console.c
 int opencons(void);
-int iscons(int fdnum);
+
 
 // pipe.c
 int pipe(int pfd[2]);

@@ -5,23 +5,22 @@
 
 # ========== Configuration =============
 
-CROSS_COMPILE := /opt/eldk/usr/bin/mips_4KC-
-CC			  := $(CROSS_COMPILE)gcc
-CFLAGS		  := -O -G 0 -mno-abicalls -fno-builtin -Wall
+# CROSS_COMPILE := /opt/eldk/usr/bin/mips_4KC-
+# CC			  := $(CROSS_COMPILE)gcc
+# CFLAGS		  := -O -G 0 -mno-abicalls -fno-builtin -Wall
 
 # ========= End of configuration =======
+INCLUDES	  := -I../inc/
 
-drivers		  := gxconsole
+all: buzzer.o diskio.o leds.o sd.o seven_seg.o switches.o timer.o uart.o console.o button.o
 
-.PHONY:	all $(drivers) 
-
-all: $(drivers)
-
-$(drivers):
-	$(MAKE) --directory=$@
+%.o: %.c %.h
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $*.o
 
 clean: 
 	for d in $(drivers); \
 		do				\
 			$(MAKE) --directory=$$d clean; \
 		done
+
+include ../include.mk

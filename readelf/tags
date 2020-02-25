@@ -95,12 +95,12 @@ static_assert	types.h	41;"	d
 u_char	types.h	/^typedef	unsigned char	u_char;$/;"	t
 u_int	types.h	/^typedef	unsigned int	u_int;$/;"	t
 u_int16_t	types.h	/^typedef unsigned short          u_int16_t;$/;"	t
-u_int32_t	types.h	/^typedef unsigned int            u_int32_t;$/;"	t
+uint32_t	types.h	/^typedef unsigned int            uint32_t;$/;"	t
 u_int64_t	types.h	/^typedef unsigned long long      u_int64_t;$/;"	t
 u_int8_t	types.h	/^typedef unsigned char            u_int8_t;$/;"	t
 u_long	types.h	/^typedef	unsigned long	u_long;$/;"	t
 u_quad_t	types.h	/^typedef	u_int64_t	u_quad_t;	\/* quads *\/$/;"	t
 u_short	types.h	/^typedef	unsigned short	u_short;$/;"	t
 uint16_t	kerelf.h	/^typedef u_int16_t               uint16_t;$/;"	t
-uint32_t	kerelf.h	/^typedef u_int32_t               uint32_t;$/;"	t
+uint32_t	kerelf.h	/^typedef uint32_t               uint32_t;$/;"	t
 uint64_t	kerelf.h	/^typedef u_int64_t               uint64_t;$/;"	t

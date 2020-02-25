@@ -4,9 +4,12 @@
 # Written By Zhu Like ( zlike@cse.buaa.edu.cn )
 
 
-CROSS_COMPILE :=  /OSLAB/compiler/usr/bin/mips_4KC-
+CROSS_COMPILE := mips-mti-elf-
 CC			  := $(CROSS_COMPILE)gcc
-CFLAGS		  := -O -G 0 -mno-abicalls -fno-builtin -Wa,-xgot -Wall -fPIC
+CFLAGS  = -EL -g -march=m14kc -msoft-float -O1 -I . -G0
+# CFLAGS		  := -O -G 0 -mno-abicalls -fno-builtin -Wa,-xgot -Wall -fPIC
 LD			  := $(CROSS_COMPILE)ld
-
+OD = mips-mti-elf-objdump
+OC = mips-mti-elf-objcopy
+SZ = mips-mti-elf-size
 

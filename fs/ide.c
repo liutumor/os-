@@ -3,7 +3,7 @@
  */
 
 #include "fs.h"
-#include "lib.h"
+#include <../user/lib.h>
 #include <mmu.h>
 
 // Overview:

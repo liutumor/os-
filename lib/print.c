@@ -9,7 +9,7 @@
  *
  */
 
-#include	<print.h>
+#include <print.h>
 
 /* macros */
 #define		IsDigit(x)	( ((x) >= '0') && ((x) <= '9') )

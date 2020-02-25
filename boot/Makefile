@@ -6,7 +6,7 @@
 
 # ========= Configuration =========
 
-INCLUDES	  := -I../include/
+INCLUDES	  := -I../inc/
 
 # ======== End of configuration ===
 
@@ -15,7 +15,7 @@ INCLUDES	  := -I../include/
 
 .PHONY: clean
 
-all: start.o
+all: start.o boot.o
 
 clean:
 	rm -rf *~ *.o
